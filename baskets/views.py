@@ -23,3 +23,7 @@ def basket_remove(request, id):
     basket.delete()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
+
+
+
+
