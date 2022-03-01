@@ -36,7 +36,7 @@
                             <tbody>
                             {%  for u in users %}
                                 <tr>
-                                    <td><a href="admin-users-update-delete.html" style="color: dodgerblue">
+                                    <td><a href="{% url 'admin_staff:admin_users_update' u.id %}" style="color: dodgerblue">
                                         {{ u.username }}
                                     </a></td>
                                     <td>{{ u.first_name }}</td>
