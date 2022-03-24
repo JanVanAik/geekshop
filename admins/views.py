@@ -16,7 +16,7 @@ def index(request):
     return render(request, 'admins/index.html', context)
 
 
-class TitleMixin():
+class TitleMixin:
     title = None
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -42,7 +42,7 @@ class UserAdminListView(CommonMixin, ListView):
 class UserAdminCreateView(CommonMixin, CreateView):
     model = User
     template_name = 'admins/admin-users-create.html'
-    form_class  = UserAdminRegistrationForm
+    form_class = UserAdminRegistrationForm
     success_url = reverse_lazy('admin_staff:admin_users')
     success_message = 'Пользователь успешно создан'
 
