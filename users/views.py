@@ -79,19 +79,6 @@ class UserProfileView(CommonMixin, UpdateView):
 def verify(request, email, activate_key):
     try:
         user = User.objects.get(email=email)
-        print(user)
-        print(user.activation_key == activate_key)
-        print( user.activation_key_expires)
-        print(not user.is_activation_key_expired)
-        if not user.is_activation_key_expired():
-            print(' проверка через not, not expired')
-        else:
-            print ('проверка через not, expired')
-
-        if user.is_activation_key_expired():
-            print(' bez not,  expired')
-        else:
-            print('bez not,not  expired')
         if user and user.activation_key == activate_key and user.is_activation_key_expired:
             user.activation_key = ''
             user.activation_key_expires = None
