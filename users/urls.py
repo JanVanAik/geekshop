@@ -11,5 +11,5 @@ urlpatterns = [
     path('profile/<int:pk>/', login_required(UserProfileView.as_view()), name='profile'),
     # path('profile/', profile, name='profile'),
 
-
+    path('verify/<str:email>/<str:activate_key>/', verify, name='verify')
 ]
