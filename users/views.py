@@ -30,6 +30,14 @@ class UserLoginView(CommonMixin, LoginView):
     form_class = UserLoginForm
     title = 'GeekShop - Авторизация'
 
+    def post(self, request, *args, **kwargs):
+        username = request.POST['username']
+        password = request.POST['password']
+        user = auth.authenticate(username=username, password=password)
+        if user and user.is_active:
+            auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            return HttpResponseRedirect(reverse('products:index'))
+
 
 class UserRegistrationView(CommonMixin, CreateView):
     model = User
@@ -48,8 +56,6 @@ class UserRegistrationView(CommonMixin, CreateView):
 
     def post(self, request, *args, **kwargs):
         register_form = self.register_form_class(request.POST, request.FILES)
-        print(register_form)
-        print(register_form.is_valid())
 
         if register_form.is_valid():
             user = register_form.save()
@@ -75,6 +81,26 @@ class UserProfileView(CommonMixin, UpdateView):
         context['baskets'] = Basket.objects.filter(user=self.object)
         return context
 
+# class UserProfileView(CommonMixin, UpdateView):
+#     model = User
+#     form_class = UserProfileForm
+#     template_name = 'users/profile.html'
+#     title = 'GeekShop - Личный кабинет'
+#
+#     def post(self, request, *args, **kwargs):
+#         edit_form = UserProfileForm(request.POST, request.FILES, instance=request.user)
+#         profile_form = UserProfileForm(request.POST, instance=request.user.userprofile)
+#         if edit_form.is_valid() and profile_form.is_valid():
+#             edit_form.save()
+#             return HttpResponseRedirect('users:profile')
+#
+#     def get_success_url(self):
+#         return reverse_lazy('users:profile', args=(self.object.id,))
+#
+#     def get_context_data(self, request, **kwargs):
+#         edit_form = UserProfileForm(request.POST, request.FILES, instance = request.user)
+#         profile_form =
+
 
 def verify(request, email, activate_key):
     try:
@@ -84,9 +110,9 @@ def verify(request, email, activate_key):
             user.activation_key_expires = None
             user.is_active = True
             user.save(update_fields=['activation_key', 'activation_key_expires', 'is_active'])
-            auth.login(request, user)
+            auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return HttpResponseRedirect(reverse('products:index'))
-            # return render(request, 'products:index')
+
     except Exception as e:
         pass
 

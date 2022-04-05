@@ -34,7 +34,7 @@ class UserProfile(models.Model):
         (FEMALE, 'Женщин')
     )
 
-    user = models.OneToOneField(User, null=False, db_index=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name='userprofile', null=False, db_index=True, on_delete=models.CASCADE)
     about = models.TextField(verbose_name='О себе', blank=True, null=True)
     gender = models.CharField(verbose_name='Пол', choices=GENDER_CHOICES, blank=True, max_length=2)
 
