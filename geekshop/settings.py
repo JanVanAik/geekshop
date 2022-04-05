@@ -38,10 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'social_django',
+
     'products',
     'users',
     'baskets',
-    'admins'
+    'admins',
+    'orders'
 ]
 
 MIDDLEWARE = [
@@ -139,4 +142,31 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
 
-LOGIN_URL = '/users/login/'
+LOGIN_URL = 'users/login/'
+DOMAIN_NAME = 'http://localhost:8000'
+
+EMAIL_HOST = "localhost"
+EMAIL_PORT = 25
+
+EMAIL_HOST_USER = 'django@gmail.com'
+EMAIL_HOST_PASSWORD = '1'
+EMAIL_USE_SSL = False
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'tmp/emails/'
+
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = '8116880'
+SOCIAL_AUTH_VK_OAUTH2_SECRET = 'p3wkmGkT5jeWigwfkvti'
+SOCIAL_AUTH_VK_OAUTH2_API_VERSION = '5.131'
+SOCIAL_AUTH_VK_OAUTH2_IGNORE_DEFAULT_SCOPE = True
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email', 'age']
+
+
+
+LOGIN_REDIRECT_URL = '/'
+
+AUTHENTICATION_BACKENDS= {
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.vk.VKOAuth2'
+}
