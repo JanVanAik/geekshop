@@ -5,12 +5,12 @@
     <div class="category_delete">
         <div class="h1">Уверены, что хотите удалить?</div>
         {% include 'orders/includes/inc_order_summary.html' %}
-        <form action="{% url 'order:order_delete' object.pk %}" method="post">
+        <form action="{% url 'orders:order_delete' object.pk %}" method="post">
             {% csrf_token %}
             <input class="btn btn-danger" type="submit" value="удалить">
         </form>
         <button class="btn btn-success">
-            <a href="{% url 'order:order_list' %}">отмена</a>
+            <a href="{% url 'orders:order_list' %}">отмена</a>
         </button>
     </div>
 {% endblock %}
