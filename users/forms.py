@@ -42,8 +42,13 @@ class UserRegistrationForm(UserCreationForm):
         model = User
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
 
-
-
+    def save(self, commit=True):
+        user = super(UserRegistrationForm, self).save()
+        user.is_active = False
+        salt = hashlib.sha1(str(random.random()).encode('utf-8')).hexdigest()[:6]
+        user.activation_key = hashlib.sha1((user.email + salt).encode('utf-8')).hexdigest()
+        user.save(update_fields=['is_active', 'activation_key'])
+        return user
 
 
 class UserProfileForm(UserChangeForm):
